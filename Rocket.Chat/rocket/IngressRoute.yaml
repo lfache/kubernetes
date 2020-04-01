@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroutetls
+  namespace: rocketchat-server
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`rocket.mydomain.com`)
+    kind: Rule
+    services:
+    - name: rocketchat-server-service
+      port: 3000
