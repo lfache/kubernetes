@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: traefik
+  labels:
+    app: traefik
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik-ingress-controller
+      containers:
+        - name: traefik
+          image: traefik:v2.2
+          imagePullPolicy: Always
+          env:
+            - name: OVH_ENDPOINT
+              value: ovh-eu
+            - name: OVH_APPLICATION_KEY
+              value: XXXXXXXXXXXXXXX
+            - name: OVH_APPLICATION_SECRET
+              value: XXXXXXXXXXXXXXXXXXX
+            - name: OVH_CONSUMER_KEY
+              value: XXXXXXXXXXXXXXXXXXXXXXXXXX
+          volumeMounts:
+            - name: traefik-config-static
+              mountPath: /etc/traefik/
+            - name: letsencrypt 
+              mountPath: "/letsencrypt/"
+      volumes:
+        - name: traefik-config-static
+          configMap:
+            name: traefik-config-static
+        - name: letsencrypt
+          persistentVolumeClaim:
+             claimName: traefik-letsencrypt-pvc

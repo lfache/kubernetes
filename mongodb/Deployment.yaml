@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rocketchat-mongo
+  namespace: rocketchat-mongodb
+spec:
+  selector:
+    matchLabels:
+      app: rocketchat-mongo
+  serviceName: "rocketchat-mongo"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rocketchat-mongo
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongodb
+        image: mongo:4
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 27017
+        command: ["mongod"]
+        args: ["--oplogSize","128","--replSet","rs0","--bind_ip_all"]
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db          
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+             claimName: mongo-persistent-storage-claim
