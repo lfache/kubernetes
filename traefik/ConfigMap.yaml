@@ -22,15 +22,15 @@ data:
           tls:
             certResolver: myresolver
 
+    api: 
+      insecure: true
+      
     providers:
       kubernetesCRD: {} 
 
     certificatesResolvers:
-      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       myresolver:
         acme:
           email: "foo.bar@mydomain.com"
           storage: "/letsencrypt/acme.json"
-          dnsChallenge: 
-            provider: ovh
-            delayBeforeCheck: 10
+          tlsChallenge: {} 
