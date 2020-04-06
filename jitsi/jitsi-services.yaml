@@ -15,3 +15,21 @@ spec:
     nodePort: 30300
   selector:
     k8s-app: jitsi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: web
+  name: web
+  namespace: jitsi
+spec:
+  ports:
+  - name: "http"
+    port: 80
+    targetPort: 80
+  - name: "https"
+    port: 443
+    targetPort: 443
+  selector:
+    k8s-app: jitsi

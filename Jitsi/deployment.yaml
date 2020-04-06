@@ -140,4 +140,4 @@ spec:
             - name: JVB_BREWERY_MUC
               value: jvbbrewery
             - name: TZ
-              value: America/Los_Angeles
+              value: Europe/Paris
