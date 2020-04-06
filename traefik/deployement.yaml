@@ -46,5 +46,5 @@ spec:
             name: traefik-config-static
         - name: letsencrypt
           hostPath:
-             path: letsencrypt
+             path: /tmp/letsencrypt
              type: DirectoryOrCreate
